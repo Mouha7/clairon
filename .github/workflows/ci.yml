@@ -8,7 +8,7 @@ jobs:
   macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Tests du cœur
         run: python3 -m unittest discover -s tests -t . -v
       - name: L'application compile
