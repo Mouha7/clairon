@@ -1,0 +1,14 @@
+#!/bin/sh
+# La commande `clairon` : lance le module Python de ce dépôt, quel que soit le
+# dossier courant (les hooks de l'agent l'appellent depuis le projet). Le lien
+# symbolique posé par Homebrew est suivi jusqu'au dépôt.
+SOI="$0"
+while [ -L "$SOI" ]; do
+  CIBLE="$(readlink "$SOI")"
+  case "$CIBLE" in
+    /*) SOI="$CIBLE" ;;
+    *) SOI="$(dirname "$SOI")/$CIBLE" ;;
+  esac
+done
+ICI="$(cd "$(dirname "$SOI")/.." && pwd)"
+PYTHONPATH="$ICI${PYTHONPATH:+:$PYTHONPATH}" exec /usr/bin/python3 -m clairon "$@"

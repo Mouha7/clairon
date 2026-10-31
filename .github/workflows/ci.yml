@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tests du cœur
+        run: python3 -m unittest discover -s tests -t . -v
+      - name: L'application compile
+        run: swiftc -O -swift-version 5 -o /tmp/Clairon app/Clairon.swift
+      - name: Les images se fabriquent
+        run: swift outils/fabrique.swift /tmp/clairon-images && ls /tmp/clairon-images
